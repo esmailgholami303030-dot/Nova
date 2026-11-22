@@ -7,17 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: 
+      - run: unzip -oq NovaPubg.zip
       - uses: actions/setup-java@v4
-        with:unzip -oq NovaPubg.zip
+        with:
           distribution: temurin
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
         with:
-           NovaPubg
+          gradle-version: 8.7
       - run: gradle assembleDebug --no-daemon
-        working-directory: nova-app
+        working-directory: NovaPubg
       - uses: actions/upload-artifact@v4
         with:
-          name: nova-apk
-          path: nova-app/app/build/outputs/apk/debug/app-debug.apk
+          name: NovaPubg-apk
+          path: NovaPubg/app/build/outputs/apk/debug/app-debug.apk
