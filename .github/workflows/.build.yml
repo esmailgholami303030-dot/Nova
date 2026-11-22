@@ -1,21 +1,23 @@
 name: Build APK
-on: [push, workflow_dispatch]
+on:
+  push:
+  workflow_dispatch:
 jobs:
-  build:
+  apk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q NovaPubg.zip
+      - run: unzip -oq nova-app.zip
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-      - uses: android-actions/setup-android@v4
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.7
-      - run: cd NovaPubg && gradle assembleDebug
+      - run: gradle assembleDebug --no-daemon
+        working-directory: nova-app
       - uses: actions/upload-artifact@v4
         with:
-          name: NovaPubg-apk
-          path: NovaPubg/app/build/outputs/apk/debug/app-debug.apk
+          name: nova-apk
+          path: nova-app/app/build/outputs/apk/debug/app-debug.apk
